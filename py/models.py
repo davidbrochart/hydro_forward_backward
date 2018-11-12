@@ -146,18 +146,19 @@ class gr4j:
 def run_delay(d, qin, qout):
     if d < 0:
         qout[:] = np.inf
-    for t in range(qin.size):
-        d0 = int(d)
-        d1 = d0 + 1
-        w1 = d - float(d0)
-        w0 = 1. - w1
-        if t + d0 < qin.size:
-            qout[t + d0] += w0 * qin[t]
-            if t + d1 < qin.size:
-                qout[t + d1] += w1 * qin[t]
+    else:
+        for t in range(qin.size):
+            d0 = int(d)
+            d1 = d0 + 1
+            w1 = d - float(d0)
+            w0 = 1. - w1
+            if t + d0 < qin.size:
+                qout[t + d0] += w0 * qin[t]
+                if t + d1 < qin.size:
+                    qout[t + d1] += w1 * qin[t]
 
 class delay:
-    def __init__(self, d=None, time_step='D'):
+    def __init__(self, d=None):
         self.qin = None
         if d is not None:
             self.set_d(d)
